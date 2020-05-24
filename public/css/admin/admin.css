@@ -1,0 +1,13 @@
+.container{
+  margin-bottom: 10px;
+}
+
+/* Icon */
+.fas:hover{
+  opacity: 0.7;
+}
+
+#migrate-button{
+  margin: 20px auto 0 auto;
+  width: 60%;
+}
