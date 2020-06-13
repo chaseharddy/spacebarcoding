@@ -16,7 +16,7 @@ class TransferController extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function migrateStudentsToPublicDIS(){
+    public function migrateStudentsToPublic(){
       // Get all students
       $response = DB::select('
         SELECT
@@ -29,27 +29,7 @@ class TransferController extends BaseController
         $name = strtolower($response[$i]->name);
         exec("rm -rf ./students/" . $name);
         exec("mkdir -p ./students/" . $name);
-        exec("cp -a /home/".$name." ./students/");
+        exec("rsync -a --prune-empty-dirs --include '*/' --include '*.html' --include '*.css' --include '*.png' --include '*.jpeg' --include '*.jpg' --include '*.js' --include '*.gif' --include '*.svg' --exclude '*' /home/".$name." ./students/");
       }
-    }
-    public function migrateStudentsToPublic(Request $request){
-
-        $name = strtolower($request->data);
-        $curl = curl_init();
-
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "http://localhost:9000/migrate.php?name=$name",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "GET",
-        ));     
-        $output = curl_exec($curl);
-        curl_close($curl);
-          
-        return;
     }
 }
