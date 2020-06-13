@@ -378,15 +378,6 @@
                         <div class="card">
                             <div class="card-header">Migrate Students To Public</div>
 
-                            <div class="form-group row">
-                                <label class="col-md-4 col-form-label text-md-right">Student</label>
-
-                                <div class="col-md-6">
-                                    <select class="form-control" id="migration-student-select">
-                                    </select>
-                                </div>
-                            </div>
-
                             <button id="migrate-button" class="btn btn-primary" onclick="migrateStudents()">
                                 Migrate
                             </button>
@@ -580,7 +571,7 @@
         function migrateStudents() {
             var data = new Data();
             var s = document.getElementById("migration-student-select");
-            data.migrate("#migrate-modal", s.options[s.selectedIndex].value);
+            data.migrate("#migrate-modal");
         }
 
         function loadStudentsComputers(data) {
@@ -602,7 +593,6 @@
             /* load students */
             data.get(data.nameEnum.student, (response) => {
                 var studentSelect = document.getElementById("student-select");
-                var studentSelectMigration = document.getElementById("migration-student-select");
                 var results = JSON.parse(response);
                 //check if there are results
                 if (results.length == 0)
@@ -613,8 +603,6 @@
                     option.text = results[i].name;
                     option.value = results[i].id;
                     studentSelect.add(option);
-                    option.value = results[i].name;
-                    studentSelectMigration.add(option);
                 }
             });
         }
